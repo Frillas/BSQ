@@ -28,7 +28,10 @@ int	main(int argc, char *argv[])
 		return (1);
 
 	if (handler(file))
+	{
+		fclose(file);
 		return (1);
+	}
 
 	fclose(file);
 	return (0);

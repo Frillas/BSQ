@@ -1,5 +1,12 @@
 #include "bsq.h"
 
+int	isalnum_bsq(char c)
+{
+	if (c >= 32 && <= 126)
+		return (1);
+	return (0);
+}
+
 size_t	strlen_bsq(char *str)
 {
 	int i = 0;
@@ -9,36 +16,30 @@ size_t	strlen_bsq(char *str)
 	return (i);
 }
 
-char	*strjoin_bsq(char *str1, char *str2)
+char	*strcpy_bsq(char *str)
 {
-	int len1 = 0, len2 = 0, i = 0;
+	int len = 0, i = 0;
 	char *new_str;
-	
-	if (str1 != NULL)
-		len1 = strlen_bsq(str1);
-	if (str2 != NULL)
-		len2 = strlen_bsq(str2);
 
-	new_str = (char *)malloc(sizeof(char) * (len1 + len2 + 1));
-	if (new_str == NULL)
+	if (str == NULL)
 		return (NULL);
 
-	while (i < len1)
+	len = strlen_bsq(str);
+	if ((new_str = (char *)malloc(sizeof(char) * (len + 1))) == NULL)
+		return (NULL);
+
+	while (i < len)
 	{
-		new_str[i] = str1[i];
-		i++;
-	}
-	while (i < len1 + len2)
-	{
-		new_str[i] = str2[i];
+		new_str[i] = str[i];
 		i++;
 	}
 	new_str[i] = '\0';
 	return (new_str);
 }
 
-char *getline_bsq(FILE *file, char *line)
+char *getline_bsq(FILE *file)
 {
+	char *line = NULL;
 	size_t	n = 0; 
 	ssize_t nb_bytes = 0;
 

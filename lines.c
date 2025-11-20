@@ -1,43 +1,77 @@
 #include "bsq.h"
 
-char	**read_all_lines(FILE *file, int nb_lines)
+static int	alloc_map(char ***map, int nb_lines)
 {
-	int i = 0;
-	char **map, *line = NULL;
+	*map = (char**)malloc(nb_lines * sizeof(char *));
+	if (*map == NULL)
+		return (1);
+	return (0);
+}
 
-	map = (char**)malloc(nb_lines * sizeof(char **));
-	if (map == NULL)
-		return (NULL);
+static int check_nb_lines(char **map, t_data *data, char *line, int *index)
+{
+	int i = *index;
 
-	while (i < nb_lines)
+	if (i >= data->nb_lines)
 	{
-		line = getline_bsq(file, line);
-		if (line == NULL)
-		{
-			free_map(map, i);
-			return (NULL);
-		}
+		free(line);
+		free_map(map, i);
+		return (1);
+	}
+	return (0);
+}
 
-		map[i] = strjoin_bsq(NULL, line);
-		if (map[i] == NULL)
-		{
-			free(line);
-			free_map(map, i);
-			return (NULL);
-		}
-		
+static int store_line(char **map, char *line, int *index)
+{
+	int i = *index;
+
+	map[i] = strcpy_bsq(line);
+	if (map[i] == NULL)
+	{
+		free(line);
+		free_map(map, i);
+		return (1);
+	}
+	return (0);
+}
+
+static int read_all_lines(FILE *file, char **map, t_data *data)
+{
+	char *line = NULL;
+	int i = 0;
+	while (1)
+	{
+		line = getline_bsq(file);
+		if (line == NULL)
+			break;
+		if (check_nb_lines(map, data, line, &i))
+			return (1);
+		if (store_line(map, line, &i))
+			return (1);
 		free(line);
 		printf("%s", map[i]);
 		i++;
 	}
+	return (0);
+}
+
+char	**read_map(FILE *file, t_data *data)
+{
+	char **map;
+
+	if (alloc_map(&map, data->nb_lines))
+		return (NULL);
+
+	read_all_lines(file, map, data);
+	
 	return (map);
 }
 
 char *read_first_line(FILE *file)
 {
-	char *line = NULL;
+	char *line;
 
-	line = getline_bsq(file, line);
+	line = getline_bsq(file);
 	if (line == NULL)
 		return (NULL);
 	
