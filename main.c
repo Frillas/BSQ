@@ -4,7 +4,6 @@ static int	check_args(int argc)
 {
 	if (argc < 2)
 		return (1);
-
 	return (0);
 }
 
@@ -12,13 +11,16 @@ static int	open_file(char *argv[], FILE **file)
 {
 	*file = fopen(argv[1], "r");
 	if (*file == NULL)
+	{
+		fprintf(stderr, "map error\n");
 		return (1);
+	}
 	return (0);
 }
 
 int	main(int argc, char *argv[])
 {
-	FILE *file = NULL;
+	FILE	*file = NULL;
 
 	if (check_args(argc))
 		return (1);
@@ -29,6 +31,7 @@ int	main(int argc, char *argv[])
 
 	if (handler(file))
 	{
+		fprintf(stderr, "map error\n");
 		fclose(file);
 		return (1);
 	}

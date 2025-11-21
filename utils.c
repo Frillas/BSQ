@@ -2,7 +2,7 @@
 
 int	isalnum_bsq(char c)
 {
-	if (c >= 32 && <= 126)
+	if (c >= 33 && c <= 126)
 		return (1);
 	return (0);
 }
@@ -50,4 +50,25 @@ char *getline_bsq(FILE *file)
 		return (NULL);
 	}
 	return (line);
+}
+
+int	**create_int_map(t_data *data)
+{
+	int	i;
+	int	**new_map;
+
+	new_map = (int **)malloc((data->nb_lines) * sizeof(int *));
+	if (new_map == NULL)
+		return (NULL);
+
+	for (i = 0; i < data->nb_lines; i++)
+	{
+		new_map[i] = (int *)malloc((data->line_len - 1) * sizeof(int));
+		if (new_map[i] == NULL)
+		{
+			free_int_map(new_map, i);
+			return (NULL);
+		}
+	}
+	return (new_map);
 }

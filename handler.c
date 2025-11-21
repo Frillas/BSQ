@@ -1,11 +1,12 @@
 #include "bsq.h"
 
-static void init_data(t_data *data)
+static void init_struct(t_data *data)
 {
 	data->nb_lines = 0;
 	data->space = '\0';
 	data->obstacle = '\0';
 	data->square = '\0';
+	data->line_len = 0;
 }
 
 static int get_nb_lines(char *line, t_data *data, int *index)
@@ -64,19 +65,22 @@ int handler(FILE *file)
 	line = read_first_line(file);
 	if (line == NULL)
 		return (1);
-
-	init_data(&data);
+	
+	init_struct(&data);
 	if (get_data(line, &data))
 	{
 		free(line);
 		return (1);
 	}
-
+	free(line);
+	
 	map = read_map(file, &data);
 	if (map == NULL)
 		return (1);
 
-	free(line);
+	find_square(map, &data);
+	print_map(map, &data);
+	
 	free_map(map, data.nb_lines);
 	return (0);
 }
