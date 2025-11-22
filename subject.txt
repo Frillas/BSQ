@@ -1,5 +1,5 @@
 To generate a map with 'gen' : 
->> perl genMap 50 10 2 > map.txt
+>> perl gen 50 10 2 > map.txt
 
 Assignment name              : bsq
 Expected files               : *.c *.h

@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handler.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aroullea <aroullea@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/22 17:23:36 by aroullea          #+#    #+#             */
+/*   Updated: 2025/11/22 18:56:19 by aroullea         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "bsq.h"
 
-static void init_struct(t_data *data)
+static void	init_struct(t_data *data)
 {
 	data->nb_lines = 0;
 	data->space = '\0';
@@ -12,9 +24,11 @@ static void init_struct(t_data *data)
 	data->y = 0;
 }
 
-static int get_nb_lines(char *line, t_data *data, int *index)
+static int	get_nb_lines(char *line, t_data *data, int *index)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (line[i] >= '0' && (line[i] <= '9'))
 	{
 		data->nb_lines = (data->nb_lines * 10) + (line[i] - 48);
@@ -26,11 +40,13 @@ static int get_nb_lines(char *line, t_data *data, int *index)
 	return (0);
 }
 
-static int get_map_data(char *line, t_data *data, int *index)
+static int	get_map_data(char *line, t_data *data, int *index)
 {
-	int i, j = 0;
+	int	i;
+	int	j;
 
 	i = *index;
+	j = 0;
 	while (line[i] != '\0')
 	{
 		if (j == 0 && isalnum_bsq(line[i]))
@@ -47,10 +63,11 @@ static int get_map_data(char *line, t_data *data, int *index)
 	return (0);
 }
 
-static int get_data(char *line, t_data *data)
+static int	get_data(char *line, t_data *data)
 {
-	int index = 0;
+	int	index;
 
+	index = 0;
 	if (get_nb_lines(line, data, &index))
 		return (1);
 	if (get_map_data(line, data, &index))
@@ -60,15 +77,15 @@ static int get_data(char *line, t_data *data)
 	return (1);
 }
 
-int handler(FILE *file)
+int	handler(FILE *file)
 {
-	char *line, **map;
-	t_data data;
+	char	*line;
+	char	**map;
+	t_data	data;
 
 	line = read_first_line(file);
 	if (line == NULL)
 		return (1);
-	
 	init_struct(&data);
 	if (get_data(line, &data))
 	{
@@ -76,14 +93,11 @@ int handler(FILE *file)
 		return (1);
 	}
 	free(line);
-	
 	map = read_map(file, &data);
 	if (map == NULL)
 		return (1);
-
 	find_square(map, &data);
 	print_map(map, &data);
-	
 	free_map(map, data.nb_lines);
 	return (0);
 }

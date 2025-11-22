@@ -1,9 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aroullea <aroullea@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/22 17:23:44 by aroullea          #+#    #+#             */
+/*   Updated: 2025/11/22 17:44:21 by aroullea         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "bsq.h"
 
-void print_map(char **map, t_data *data)
+void	print_map(char **map, t_data *data)
 {
-	int i;
+	int	i;
 
-	for (i = 0; i < data->nb_lines; i++)
+	i = 0;
+	while (i < data->nb_lines)
+	{
 		fprintf(stdout, "%s", map[i]);
+		i++;
+	}
 }
