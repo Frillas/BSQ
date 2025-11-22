@@ -1,15 +1,8 @@
 #include "bsq.h"
 
-static int	check_args(int argc)
+static int	open_file(char *argv[], FILE **file, int i)
 {
-	if (argc < 2)
-		return (1);
-	return (0);
-}
-
-static int	open_file(char *argv[], FILE **file)
-{
-	*file = fopen(argv[1], "r");
+	*file = fopen(argv[i], "r");
 	if (*file == NULL)
 	{
 		fprintf(stderr, "map error\n");
@@ -18,24 +11,39 @@ static int	open_file(char *argv[], FILE **file)
 	return (0);
 }
 
+static int	check_args(int argc)
+{
+	if (argc < 2)
+		return (1);
+	return (0);
+}
+
 int	main(int argc, char *argv[])
 {
 	FILE	*file = NULL;
+	int		i;
 
 	if (check_args(argc))
-		return (1);
-
-	open_file(argv, &file);
-	if (file == NULL)
-		return (1);
-
-	if (handler(file))
 	{
-		fprintf(stderr, "map error\n");
-		fclose(file);
-		return (1);
+		handler(stdin);
+		return (0);
 	}
 
-	fclose(file);
+	for(i = 1; i < argc; i++)
+	{
+		if (i > 1)
+			fprintf(stdout, "\n");
+
+		open_file(argv, &file, i);
+		if (file == NULL)
+			continue;
+
+		if (handler(file))
+			fprintf(stderr, "map error\n");
+		
+		fclose(file);
+		file = NULL;
+	}
+
 	return (0);
 }

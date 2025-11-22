@@ -7,6 +7,9 @@ static void init_struct(t_data *data)
 	data->obstacle = '\0';
 	data->square = '\0';
 	data->line_len = 0;
+	data->max = 0;
+	data->x = 0;
+	data->y = 0;
 }
 
 static int get_nb_lines(char *line, t_data *data, int *index)

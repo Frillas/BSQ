@@ -11,6 +11,9 @@ typedef struct s_data
 	char	obstacle;
 	char	square;
 	size_t	line_len;
+	int		max;
+	int		x;
+	int		y;
 }			t_data;
 
 char	**read_map(FILE *file, t_data *data);

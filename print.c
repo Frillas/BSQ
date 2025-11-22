@@ -5,5 +5,5 @@ void print_map(char **map, t_data *data)
 	int i;
 
 	for (i = 0; i < data->nb_lines; i++)
-		printf("%s", map[i]);
+		fprintf(stdout, "%s", map[i]);
 }
