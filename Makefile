@@ -8,6 +8,7 @@ OBJ_DIR = ./obj
 SRC = main.c\
 	  free.c\
 	  handler.c\
+	  handler_utils.c\
 	  print.c\
 	  read.c\
 	  read_utils.c\

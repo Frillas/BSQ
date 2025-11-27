@@ -51,5 +51,9 @@ int		check_min(int up, int diag, int left);
 void	add_square(char **map, t_data *data);
 void	process_cell(char **map, int **num, t_data *data, int i);
 void	detect_square(char **map, int **num, t_data *data);
+int		get_nb_lines(char *line, t_data *data, int *index);
+int		get_map_data(char *line, t_data *data, int *index);
+int		check_data(t_data *data);
+int		get_data(char *line, t_data *data);
 
 #endif
