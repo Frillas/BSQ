@@ -63,6 +63,21 @@ static int	get_map_data(char *line, t_data *data, int *index)
 	return (0);
 }
 
+static int check_data(t_data *data)
+{
+	if (data->space != '\0' && data->obstacle != '\0' && data->square != '\0')
+	{
+		if (data->space == data->obstacle)
+			return (1);
+		else if (data->space == data->square)
+			return (1);
+		else if (data->obstacle == data->square)
+			return (1);
+		return (0);
+	}
+	return (1);
+}
+
 static int	get_data(char *line, t_data *data)
 {
 	int	index;
@@ -72,9 +87,9 @@ static int	get_data(char *line, t_data *data)
 		return (1);
 	if (get_map_data(line, data, &index))
 		return (1);
-	if (data->space != '\0' && data->obstacle != '\0' && data->square != '\0')
-		return (0);
-	return (1);
+	if (check_data(data))
+		return (1);
+	return (0);
 }
 
 int	handler(FILE *file)
