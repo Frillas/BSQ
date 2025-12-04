@@ -16,11 +16,10 @@ char	**read_map(FILE *file, t_data *data)
 {
 	char	**map;
 
-	map = (char **)malloc((data->nb_lines + 1) * sizeof(char *));
+	map = (char **)malloc(data->nb_lines * sizeof(char *));
 	if (map == NULL)
 		return (NULL);
 	if (read_all_lines(file, map, data))
 		return (NULL);
-	map[data->nb_lines] = NULL;
 	return (map);
 }
