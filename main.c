@@ -16,7 +16,7 @@ static void	open_file(char *argv[], FILE **file, int i)
 {
 	*file = fopen(argv[i], "r");
 	if (*file == NULL)
-		fprintf(stderr, "map error\n");
+		fprintf(stderr, "no such file\n");
 }
 
 static int	check_args(int argc)
@@ -42,14 +42,13 @@ int	main(int argc, char *argv[])
 	{
 		if (i > 1)
 			fprintf(stdout, "\n");
-		open_file(argv, &file, i);
+		open_file(argv, &file, i++);
 		if (file == NULL)
 			continue ;
 		if (handler(file))
 			fprintf(stderr, "map error\n");
 		fclose(file);
 		file = NULL;
-		i++;
 	}
 	return (0);
 }
