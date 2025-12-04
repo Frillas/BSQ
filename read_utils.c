@@ -12,7 +12,7 @@
 
 #include "bsq.h"
 
-int	check_nb_lines(char **map, t_data *data, char *line, int *index)
+static int	check_nb_lines(char **map, t_data *data, char *line, int *index)
 {
 	int	i;
 
@@ -25,7 +25,7 @@ int	check_nb_lines(char **map, t_data *data, char *line, int *index)
 	return (0);
 }
 
-int	is_valid_line(char **map, t_data *data, char *line, int *index)
+static int	is_valid_line(char **map, t_data *data, char *line, int *index)
 {
 	size_t	size;
 	int		j;

@@ -12,15 +12,11 @@
 
 #include "bsq.h"
 
-static int	open_file(char *argv[], FILE **file, int i)
+static void	open_file(char *argv[], FILE **file, int i)
 {
 	*file = fopen(argv[i], "r");
 	if (*file == NULL)
-	{
 		fprintf(stderr, "map error\n");
-		return (1);
-	}
-	return (0);
 }
 
 static int	check_args(int argc)
