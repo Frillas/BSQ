@@ -12,29 +12,7 @@
 
 #include "bsq.h"
 
-void	handle_first_line(char *map, int *num, t_data *data)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < (data->line_len - 1))
-	{
-		if (map[i] == data->space)
-		{
-			num[i] = 1;
-			if (data->max < num[i])
-			{
-				data->max = num[i];
-				data->x = i;
-			}
-		}
-		else
-			num[i] = 0;
-		i++;
-	}
-}
-
-int	check_min(int up, int diag, int left)
+static int	check_min(int up, int diag, int left)
 {
 	if (up <= diag && up <= left)
 		return (up);
@@ -44,7 +22,7 @@ int	check_min(int up, int diag, int left)
 		return (left);
 }
 
-void	add_square(char **map, t_data *data)
+static void	add_square(char **map, t_data *data)
 {
 	int	i;
 	int	j;
@@ -62,31 +40,28 @@ void	add_square(char **map, t_data *data)
 	}
 }
 
-void	process_cell(char **map, int **num, t_data *data, int i)
+static void	store_point(t_data *data, int num)
 {
-	int		*pnum;
-	int		*prev;
-	char	*pmap;
-	int		j;
+	data->max = num;
+	data->x = data->j;
+	data->y = data->i;
+}
+
+static void	process_cell(char *map, int *num, int *prev, t_data *data)
+{
+	int	j;
 
 	j = data->j;
-	pmap = map[i];
-	pnum = num[i];
-	prev = num[i - 1];
-	if (pmap[j] == data->obstacle)
-		pnum[j] = 0;
+	if (map[j] == data->obstacle)
+		num[j] = 0;
 	else
 	{
 		if (j == 0)
-			pnum[j] = check_min(prev[j], 0, 0) + 1;
+			num[j] = check_min(prev[j], 0, 0) + 1;
 		else
-			pnum[j] = check_min(prev[j], prev[j - 1], pnum[j - 1]) + 1;
-		if (data->max < pnum[j])
-		{
-			data->max = pnum[j];
-			data->x = j;
-			data->y = i;
-		}
+			num[j] = check_min(prev[j], prev[j - 1], num[j - 1]) + 1;
+		if (data->max < num[j])
+			store_point(data, num[j]);
 	}
 }
 
@@ -94,16 +69,17 @@ void	detect_square(char **map, int **num, t_data *data)
 {
 	int	i;
 
-	i = 1;
-	while (i < data->nb_lines)
+	data->i = 1;
+	while (data->i < data->nb_lines)
 	{
 		data->j = 0;
 		while (data->j < (data->line_len - 1))
 		{
-			process_cell(map, num, data, i);
+			i = data->i;
+			process_cell(map[i], num[i], num[i - 1], data);
 			data->j++;
 		}
-		i++;
+		data->i++;
 	}
 	add_square(map, data);
 }

@@ -30,7 +30,7 @@ int	handler(FILE *file)
 	char	**map;
 	t_data	data;
 
-	line = read_first_line(file);
+	line = getline_bsq(file);
 	if (line == NULL)
 		return (1);
 	init_struct(&data);

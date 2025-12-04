@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "bsq.h"
 
-int	get_nb_lines(char *line, t_data *data, int *index)
+static int	get_nb_lines(char *line, t_data *data, int *index)
 {
 	int	i;
 
@@ -27,7 +27,7 @@ int	get_nb_lines(char *line, t_data *data, int *index)
 	return (0);
 }
 
-int	get_map_data(char *line, t_data *data, int *index)
+static int	get_map_data(char *line, t_data *data, int *index)
 {
 	int	i;
 	int	j;
@@ -46,11 +46,11 @@ int	get_map_data(char *line, t_data *data, int *index)
 		i++;
 	}
 	if (j != 4)
-		return (-1);
+		return (1);
 	return (0);
 }
 
-int	check_data(t_data *data)
+static int	check_data(t_data *data)
 {
 	if (data->space != '\0' && data->obstacle != '\0' && data->square != '\0')
 	{

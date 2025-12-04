@@ -24,13 +24,3 @@ char	**read_map(FILE *file, t_data *data)
 	map[data->nb_lines] = NULL;
 	return (map);
 }
-
-char	*read_first_line(FILE *file)
-{
-	char	*line;
-
-	line = getline_bsq(file);
-	if (line == NULL)
-		return (NULL);
-	return (line);
-}

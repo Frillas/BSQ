@@ -28,6 +28,28 @@ static void	handle_one_line(char *map, t_data *data)
 	}
 }
 
+static void	handle_first_line(char *map, int *num, t_data *data)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < (data->line_len - 1))
+	{
+		if (map[i] == data->space)
+		{
+			num[i] = 1;
+			if (data->max < num[i])
+			{
+				data->max = num[i];
+				data->x = i;
+			}
+		}
+		else
+			num[i] = 0;
+		i++;
+	}
+}
+
 int	find_square(char **map, t_data *data)
 {
 	int	**num;
