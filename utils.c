@@ -46,25 +46,3 @@ char	*getline_bsq(FILE *file)
 	}
 	return (line);
 }
-
-int	**create_int_map(t_data *data)
-{
-	int	i;
-	int	**new_map;
-
-	i = 0;
-	new_map = (int **)malloc((data->nb_lines) * sizeof(int *));
-	if (new_map == NULL)
-		return (NULL);
-	while (i < data->nb_lines)
-	{
-		new_map[i] = (int *)malloc((data->line_len - 1) * sizeof(int));
-		if (new_map[i] == NULL)
-		{
-			free_int_map(new_map, i);
-			return (NULL);
-		}
-		i++;
-	}
-	return (new_map);
-}

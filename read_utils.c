@@ -12,69 +12,61 @@
 
 #include "bsq.h"
 
-static int	check_nb_lines(char **map, t_data *data, char *line, int *index)
+static int	check_nb_lines(char *line, t_data *data)
 {
-	int	i;
-
-	i = *index;
-	if (i >= data->nb_lines)
+	if (data->i >= data->nb_lines)
 	{
-		free_mem(line, map, i);
+		free(line);
 		return (1);
 	}
 	return (0);
 }
 
-static int	is_valid_line(char **map, t_data *data, char *line, int *index)
+int	check_line_size(char *line, t_data *data)
 {
 	size_t	size;
-	int		j;
 
-	j = 0;
 	size = strlen_bsq(line);
-	if (*index == 0)
+	if (data->i == 0)
 		data->line_len = size;
 	if (size != data->line_len || line[size - 1] != '\n')
 	{
-		free_mem(line, map, *index);
+		free(line);
 		return (1);
-	}
-	while (line[j] != '\n')
-	{
-		if (line[j] != data->space && line[j] != data->obstacle)
-		{
-			free_mem(line, map, *index);
-			return (1);
-		}
-		j++;
 	}
 	return (0);
 }
 
-int	read_all_lines(FILE *file, char **map, t_data *data)
+static void	buffer_exchange(int **current, int **prev)
+{
+	int	*tmp;
+
+	tmp = *current;
+	*current = *prev;
+	*prev = tmp;
+}
+
+int	read_all_lines(FILE *file, int *current, int *prev, t_data *data)
 {
 	char	*line;
-	int		i;
 
-	line = NULL;
-	i = 0;
+	data->i = 1;
 	while (1)
 	{
 		line = getline_bsq(file);
 		if (line == NULL)
 			break ;
-		if (check_nb_lines(map, data, line, &i))
+		if (check_nb_lines(line, data))
 			return (1);
-		if (is_valid_line(map, data, line, &i))
+		if (check_line_size(line, data))
 			return (1);
-		map[i] = line;
-		line = NULL;
-		i++;
+		if (detect_square(line, current, prev, data))
+			return (1);
+		buffer_exchange(&current, &prev);
+		free(line);
+		data->i++;
 	}
-	if (i < data->nb_lines)
-	{
-		free_map(map, i);
+	if (data->i < data->nb_lines)
 		return (1);
-	}
 	return (0);
 }

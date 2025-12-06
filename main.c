@@ -16,7 +16,7 @@ static void	open_file(char *argv[], FILE **file, int i)
 {
 	*file = fopen(argv[i], "r");
 	if (*file == NULL)
-		fprintf(stderr, "no such file\n");
+		fprintf(stderr, "map error\n");
 }
 
 static int	check_args(int argc)

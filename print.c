@@ -12,14 +12,39 @@
 
 #include "bsq.h"
 
-void	print_map(char **map, t_data *data)
+static void	display_map(char *line, t_data *data, int i)
 {
-	int	i;
+	size_t	j;
+
+	j = 0;
+	while (j < (data->line_len - 1))
+	{
+		if (i >= (data->y - data->max + 1) && (i <= data->y)
+			&& (int)j >= (data->x - data->max + 1) && ((int)j <= data->x))
+		{
+			fprintf(stdout, "%c", data->square);
+		}
+		else
+			fprintf(stdout, "%c", line[j]);
+		j++;
+	}
+	free(line);
+}
+
+int	print_map(FILE *file, t_data *data)
+{
+	char	*line;
+	int		i;
 
 	i = 0;
 	while (i < data->nb_lines)
 	{
-		fprintf(stdout, "%s", map[i]);
+		line = getline_bsq(file);
+		if (line == NULL)
+			return (1);
+		display_map(line, data, i);
+		fprintf(stdout, "%c", '\n');
 		i++;
 	}
+	return (0);
 }

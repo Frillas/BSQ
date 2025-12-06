@@ -37,29 +37,27 @@ int		handler(FILE *file);
 int		get_data(char *line, t_data *data);
 
 // read
-char	**read_map(FILE *file, t_data *data);
+int		read_map(FILE *file, t_data *data);
 
 // read_utils
-int		read_all_lines(FILE *file, char **map, t_data *data);
+int		check_line_size(char *line, t_data *data);
+int		read_all_lines(FILE *file, int *current, int *prev, t_data *data);
 
 // square
-int		find_square(char **map, t_data *data);
-
-// square utils
-void	detect_square(char **map, int **num, t_data *data);
+int		detect_square(char *line, int *current, int *prev, t_data *data);
+int		handle_first_line(char *map, int *current, t_data *data);
 
 // print
-void	print_map(char **map, t_data *data);
+int		print_map(FILE *file, t_data *data);
 
 // free
-void	free_int_map(int **int_map, int nb_lines);
-void	free_map(char **map, int nb_lines);
-void	free_mem(char *line, char **map, int nb_lines);
+// void	free_int_map(int **int_map, int nb_lines);
+// void	free_map(char **map, int nb_lines);
+// void	free_mem(char *line, char **map, int nb_lines);
 
 // utils
 int		isalnum_bsq(char c);
 size_t	strlen_bsq(char *str);
 char	*getline_bsq(FILE *file);
-int		**create_int_map(t_data *data);
 
 #endif

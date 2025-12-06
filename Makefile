@@ -1,19 +1,17 @@
 NAME = bsq
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 RM = rm -f
 OBJ_DIR = ./obj
 
 SRC = main.c\
-	  free.c\
 	  handler.c\
 	  handler_utils.c\
 	  print.c\
 	  read.c\
 	  read_utils.c\
 	  square.c\
-	  square_utils.c\
 	  utils.c
 
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
