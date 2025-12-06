@@ -12,6 +12,7 @@ SRC = main.c\
 	  read.c\
 	  read_utils.c\
 	  square.c\
+	  free.c\
 	  utils.c
 
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)

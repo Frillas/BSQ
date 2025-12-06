@@ -12,6 +12,29 @@
 
 #include "bsq.h"
 
+static int	create_map(FILE *file, t_data *data)
+{
+	char	*line;
+
+	data->map = (char **)malloc(data->nb_lines * sizeof(char *));
+	if (data->map == NULL)
+		return (1);
+	line = getline_bsq(file);
+	if (line == NULL)
+	{
+		free_map(data->map, 0);
+		return (1);
+	}
+	if (check_line_size(line, data))
+	{
+		free_map(data->map, 0);
+		free(line);
+		return (1);
+	}
+	data->map[0] = line;
+	return (0);
+}
+
 static int	create_int_lines(int **current, int **prev, size_t len)
 {
 	*current = (int *)malloc(sizeof(int) * len);
@@ -30,6 +53,7 @@ static int	find_square(FILE *file, int *current, int *prev, t_data *data)
 {
 	if (read_all_lines(file, current, prev, data))
 	{
+		free_map(data->map, data->nb_lines);
 		free(current);
 		free(prev);
 		return (1);
@@ -41,27 +65,23 @@ static int	find_square(FILE *file, int *current, int *prev, t_data *data)
 
 int	read_map(FILE *file, t_data *data)
 {
-	char	*line;
 	int		*current;
 	int		*prev;
 
-	line = getline_bsq(file);
-	if (line == NULL)
+	if (create_map(file, data))
 		return (1);
-	check_line_size(line, data);
 	if (create_int_lines(&current, &prev, (data->line_len - 1)))
 	{
-		free(line);
+		free_map(data->map, 1);
 		return (1);
 	}
-	if (handle_first_line(line, prev, data))
+	if (handle_first_line(prev, data))
 	{
-		free(line);
+		free_map(data->map, 1);
 		free(current);
 		free(prev);
 		return (1);
 	}
-	free(line);
 	if (find_square(file, current, prev, data))
 		return (1);
 	return (0);

@@ -12,16 +12,16 @@
 
 #include "bsq.h"
 
-int	handle_first_line(char *map, int *current, t_data *data)
+int	handle_first_line(int *current, t_data *data)
 {
 	size_t	i;
 
 	i = 0;
 	while (i < (data->line_len - 1))
 	{
-		if (map[i] == data->obstacle)
+		if (data->map[0][i] == data->obstacle)
 			current[i] = 0;
-		else if (map[i] == data->space)
+		else if (data->map[0][i] == data->space)
 		{
 			current[i] = 1;
 			if (data->max < current[i])

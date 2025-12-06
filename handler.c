@@ -14,6 +14,7 @@
 
 static void	init_struct(t_data *data)
 {
+	data->map = NULL;
 	data->nb_lines = 0;
 	data->space = '\0';
 	data->obstacle = '\0';
@@ -24,18 +25,6 @@ static void	init_struct(t_data *data)
 	data->y = 0;
 	data->i = 0;
 	data->j = 0;
-}
-
-static int	rewind_file(FILE *file)
-{
-	char	*line;
-
-	fseek(file, 0, SEEK_SET);
-	line = getline_bsq(file);
-	if (line == NULL)
-		return (1);
-	free(line);
-	return (0);
 }
 
 int	handler(FILE *file)
@@ -55,8 +44,7 @@ int	handler(FILE *file)
 	free(line);
 	if (read_map(file, &data))
 		return (1);
-	if (rewind_file(file))
-		return (1);
-	print_map(file, &data);
+	print_map(&data);
+	free_map(data.map, data.nb_lines);
 	return (0);
 }

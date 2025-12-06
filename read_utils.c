@@ -46,6 +46,24 @@ static void	buffer_exchange(int **current, int **prev)
 	*prev = tmp;
 }
 
+static void	add_square(char **map, t_data *data)
+{
+	int	i;
+	int	j;
+
+	j = data->y;
+	while (j >= (data->y - (data->max - 1)))
+	{
+		i = data->x;
+		while (i >= (data->x - (data->max - 1)))
+		{
+			map[j][i] = data->square;
+			i--;
+		}
+		j--;
+	}
+}
+
 int	read_all_lines(FILE *file, int *current, int *prev, t_data *data)
 {
 	char	*line;
@@ -63,10 +81,12 @@ int	read_all_lines(FILE *file, int *current, int *prev, t_data *data)
 		if (detect_square(line, current, prev, data))
 			return (1);
 		buffer_exchange(&current, &prev);
-		free(line);
+		data->map[data->i] = line;
+		line = NULL;
 		data->i++;
 	}
 	if (data->i < data->nb_lines)
 		return (1);
+	add_square(data->map, data);
 	return (0);
 }

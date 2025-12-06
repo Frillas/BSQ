@@ -18,6 +18,7 @@
 
 typedef struct s_data
 {
+	char	**map;
 	int		nb_lines;
 	char	space;
 	char	obstacle;
@@ -45,14 +46,14 @@ int		read_all_lines(FILE *file, int *current, int *prev, t_data *data);
 
 // square
 int		detect_square(char *line, int *current, int *prev, t_data *data);
-int		handle_first_line(char *map, int *current, t_data *data);
+int		handle_first_line(int *current, t_data *data);
 
 // print
-int		print_map(FILE *file, t_data *data);
+void	print_map(t_data *data);
 
 // free
+void	free_map(char **map, int nb_lines);
 // void	free_int_map(int **int_map, int nb_lines);
-// void	free_map(char **map, int nb_lines);
 // void	free_mem(char *line, char **map, int nb_lines);
 
 // utils
